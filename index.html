@@ -90,6 +90,25 @@ h2.sec::after{content:"";flex:1;height:1px;background:var(--line)}
 .prose blockquote.callout .ct{font-weight:600;color:var(--gold);letter-spacing:.08em;text-transform:uppercase;font-size:12px}
 .prose blockquote.warning,.prose blockquote.danger{border-left-color:var(--th-red)}
 .prose blockquote.info,.prose blockquote.tip{border-left-color:var(--th-blue)}
+
+.pw{display:grid;grid-template-columns:230px minmax(0,680px);gap:48px;justify-content:center;align-items:start}
+.pw .post{margin:0;max-width:none;min-width:0}
+.toc{position:sticky;top:16px;max-height:calc(100vh - 32px);overflow-y:auto;font-size:14px;padding:0 0 16px;border-right:1px solid var(--line);padding-right:14px}
+.toc-h{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:8px;border-bottom:1px solid var(--line);margin-bottom:8px}
+.toc-h b{font-family:var(--font-t);font-weight:400;font-size:18px;letter-spacing:.08em;text-transform:uppercase}
+.toc-h button{font:inherit;font-size:12px;padding:3px 10px;border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer}
+.toc ul{list-style:none;margin:0;padding:0}
+.toc li ul{padding-left:14px}
+.toc a{display:block;padding:4px 8px;color:var(--muted);line-height:1.35;border-left:2px solid transparent}
+.toc a:hover{color:var(--gold)}
+.toc a.on{color:var(--fg);font-weight:600;border-left-color:var(--gold)}
+.toc.off ul{display:none}
+.tocbtn{display:none}
+@media(max-width:900px){
+  .pw{grid-template-columns:minmax(0,1fr);gap:0}
+  .toc{position:static;max-height:none;border:1px solid var(--line);background:var(--surface);padding:12px 14px;margin-bottom:24px}
+}
+.prose h2,.prose h3,.prose h4{scroll-margin-top:16px}
 footer{margin:56px 0 24px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;letter-spacing:.06em}
 </style>
 
@@ -122,7 +141,29 @@ function home(){
   app.querySelectorAll('.tags button').forEach(function(b){b.onclick=function(){filter=b.dataset.t;home()}});
 }
 function post(p){
-  app.innerHTML='<div class="post" style="--th:'+C[p.th]+'"><a class="back" href="#yazilar">← Yazılar</a><span class="cat">'+p.cat+'</span>'+ttl(p)+'<p class="lead">'+p.sub+' · '+p.date+' · '+p.min+' dk okuma</p><div class="rule"></div><div class="prose">'+(p.html||md(p.body))+'</div></div>';
+  app.innerHTML='<div class="pw" style="--th:'+C[p.th]+'"><nav class="toc" id="toc" aria-label="İçindekiler"></nav><div class="post"><a class="back" href="#yazilar">← Yazılar</a><span class="cat">'+p.cat+'</span>'+ttl(p)+'<p class="lead">'+p.sub+' · '+p.date+' · '+p.min+' dk okuma</p><div class="rule"></div><div class="prose" id="prose">'+(p.html||md(p.body))+'</div></div></div>';
+  buildToc();
+}
+
+function buildToc(){
+  var pr=document.getElementById('prose'),toc=document.getElementById('toc');if(!pr||!toc)return;
+  var hs=[].slice.call(pr.querySelectorAll('h2,h3,h4'));
+  if(hs.length<2){toc.remove();document.querySelector('.pw').style.display='block';return}
+  var top=Math.min.apply(0,hs.map(function(h){return +h.tagName[1]})),html='',stack=[],links=[];
+  hs.forEach(function(h,i){
+    h.id='b'+(i+1);var lv=+h.tagName[1]-top;
+    while(stack.length>lv+1){html+='</li></ul>';stack.pop()}
+    if(stack.length==lv+1){html+='</li>'}
+    while(stack.length<lv+1){html+='<ul>';stack.push(1)}
+    html+='<li><a href="#" data-i="'+h.id+'">'+esc(h.textContent)+'</a>';
+  });
+  while(stack.length){html+='</li></ul>';stack.pop()}
+  toc.innerHTML='<div class="toc-h"><b>İçindekiler</b><button type="button" id="tg">gizle</button></div>'+html;
+  document.getElementById('tg').onclick=function(){var off=toc.classList.toggle('off');this.textContent=off?'göster':'gizle'};
+  links=[].slice.call(toc.querySelectorAll('a'));
+  links.forEach(function(a){a.onclick=function(e){e.preventDefault();var t=document.getElementById(a.dataset.i);t.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'})}});
+  function act(){var cur=hs[0].id;hs.forEach(function(h){if(h.getBoundingClientRect().top<=80)cur=h.id});links.forEach(function(a){a.classList.toggle('on',a.dataset.i==cur)})}
+  window.removeEventListener('scroll',window._tocAct);window._tocAct=act;window.addEventListener('scroll',act,{passive:true});act();
 }
 function about(){
   app.innerHTML='<div class="post" style="--th:var(--gold)"><span class="cat">Hakkında</span><h1 class="title"><span class="l1">Ben</span><span class="l2">Ulmocus</span></h1><div class="rule" style="margin-top:20px"></div><div class="prose"><p>Çok yakında.</p></div></div>';
