@@ -94,7 +94,7 @@ h2.sec::after{content:"";flex:1;height:1px;background:var(--line)}
 
 .pw{display:grid;grid-template-columns:230px minmax(0,680px);gap:48px;justify-content:center;align-items:start}
 .pw .post{margin:0;max-width:none;min-width:0}
-.toc{position:sticky;top:16px;max-height:calc(100vh - 32px);overflow-y:auto;font-size:14px;padding:0 0 16px;border-right:1px solid var(--line);padding-right:14px}
+.toc{position:sticky;top:16px;max-height:calc(100vh - 32px);overflow-y:auto;overflow-x:hidden;font-size:14px;padding:0 0 16px;border-right:1px solid var(--line);padding-right:14px}
 .toc-h{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:8px;border-bottom:1px solid var(--line);margin-bottom:8px}
 .toc-h b{font-family:var(--font-t);font-weight:400;font-size:18px;letter-spacing:.08em;text-transform:uppercase}
 .toc-h button{font:inherit;font-size:12px;padding:3px 10px;border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer}
@@ -104,6 +104,12 @@ h2.sec::after{content:"";flex:1;height:1px;background:var(--line)}
 .toc a:hover{color:var(--gold)}
 .toc a.on{color:var(--fg);font-weight:600;border-left-color:var(--gold)}
 .toc.off ul{display:none}
+.toc a{overflow-wrap:anywhere;word-break:break-word}
+.toc>ul>li>ul{display:none}
+.toc>ul>li.open>ul{display:block}
+.toc>ul>li.has>a::before{content:"A";display:inline-block;width:12px;margin-right:2px;transition:transform .15s}
+.toc>ul>li.has.open>a::before{transform:rotate(90deg)}
+.toc>ul>li:not(.has)>a{padding-left:22px}
 .tocbtn{display:none}
 @media(max-width:900px){
   .pw{grid-template-columns:minmax(0,1fr);gap:0}
@@ -162,9 +168,11 @@ function buildToc(){
   toc.innerHTML='<div class="toc-h"><b>İçindekiler</b><button type="button" id="tg">gizle</button></div>'+html;
   pr.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href^="#sec-"]');if(!a)return;e.preventDefault();var t=document.getElementById(a.getAttribute('href').slice(1));if(t)t.scrollIntoView({behavior:'smooth',block:'start'})});
   document.getElementById('tg').onclick=function(){var off=toc.classList.toggle('off');this.textContent=off?'göster':'gizle'};
+  [].forEach.call(toc.querySelectorAll('.toc>ul>li'),function(li){if(li.querySelector('ul'))li.classList.add('has')});
   links=[].slice.call(toc.querySelectorAll('a'));
   links.forEach(function(a){a.onclick=function(e){e.preventDefault();var t=document.getElementById(a.dataset.i);t.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'})}});
-  function act(){var cur=hs[0].id;hs.forEach(function(h){if(h.getBoundingClientRect().top<=80)cur=h.id});links.forEach(function(a){a.classList.toggle('on',a.dataset.i==cur)})}
+  function act(){var cur=hs[0].id;hs.forEach(function(h){if(h.getBoundingClientRect().top<=80)cur=h.id});links.forEach(function(a){a.classList.toggle('on',a.dataset.i==cur)});
+    [].forEach.call(toc.querySelectorAll('.toc>ul>li'),function(li){var on=li.querySelector('a.on');li.classList.toggle('open',!!on)})}
   window.removeEventListener('scroll',window._tocAct);window._tocAct=act;window.addEventListener('scroll',act,{passive:true});act();
 }
 function about(){
