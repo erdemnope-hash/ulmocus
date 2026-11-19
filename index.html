@@ -1,0 +1,115 @@
+<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ulmocus</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,600&display=swap">
+<style>
+/* Layout: dark channel-style masthead (gold category box, tall condensed titles cream + theme color), posts as theme-colored cards, single reading column. Dark-first; each post has its own theme color like the thumbnails. */
+:root{
+  --bg:#0c1311; --surface:#131d1a; --fg:#f1e8d4; --muted:#9aa89f; --line:#243430;
+  --gold:#d4a84b; --gold-soft:#2a2414;
+  --th-red:#d9483b; --th-green:#4aa86a; --th-blue:#4a86d9;
+  --font-t:'Anton','Impact',sans-serif; --font-b:'Inter',system-ui,sans-serif; --font-r:'Newsreader',Georgia,serif;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){
+  --bg:#f3eee1; --surface:#fbf8ef; --fg:#1b2420; --muted:#66716a; --line:#dcd4bf;
+  --gold:#8a6414; --gold-soft:#efe3c3;
+  --th-red:#b3281c; --th-green:#237a45; --th-blue:#2a5fb0; color-scheme:light}}
+:root[data-theme="light"]{
+  --bg:#f3eee1; --surface:#fbf8ef; --fg:#1b2420; --muted:#66716a; --line:#dcd4bf;
+  --gold:#8a6414; --gold-soft:#efe3c3;
+  --th-red:#b3281c; --th-green:#237a45; --th-blue:#2a5fb0; color-scheme:light}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-b);font-size:15px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:960px;margin:0 auto}
+a{color:inherit;text-decoration:none}
+a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.logo{font-family:var(--font-t);font-size:28px;letter-spacing:.04em;text-transform:uppercase}
+.logo span{color:var(--gold)}
+nav{display:flex;gap:4px}
+nav a{padding:6px 12px;color:var(--muted);font-weight:500;font-size:13px;letter-spacing:.12em;text-transform:uppercase}
+nav a:hover{color:var(--gold)}
+.cat{display:inline-block;border:1px solid var(--gold);background:var(--gold-soft);color:var(--gold);font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;padding:5px 10px}
+.meta{color:var(--muted);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+main{padding:32px 0 8px}
+.title{font-family:var(--font-t);font-weight:400;text-transform:uppercase;line-height:1.02;margin:0;text-wrap:balance}
+.title .l1{display:block;color:var(--fg)}
+.title .l2{display:block;color:var(--th)}
+/* hero */
+.hero{position:relative;display:block;overflow:hidden;border:1px solid var(--line);background:linear-gradient(120deg,color-mix(in srgb,var(--th) 22%,var(--surface)),var(--surface) 70%);padding:32px 28px 36px;min-height:300px}
+.hero .title{font-size:clamp(40px,8vw,78px);margin:16px 0 14px;text-shadow:0 3px 0 rgba(0,0,0,.25)}
+.hero p{font-family:var(--font-r);font-size:20px;max-width:46ch;margin:0 0 14px;color:var(--fg)}
+.hero:hover .l2,.card:hover .l2{filter:brightness(1.15)}
+.spark{position:absolute;left:0;right:0;bottom:0;height:90px;width:100%;opacity:.35;pointer-events:none}
+.spark path{fill:none;stroke:var(--th);stroke-width:3}
+.hero>*:not(.spark){position:relative}
+h2.sec{font-family:var(--font-t);font-weight:400;font-size:22px;letter-spacing:.08em;text-transform:uppercase;margin:40px 0 14px;display:flex;align-items:center;gap:14px}
+h2.sec::after{content:"";flex:1;height:1px;background:var(--line)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.card{display:flex;flex-direction:column;gap:12px;min-width:0;border:1px solid var(--line);border-top:3px solid var(--th);background:var(--surface);padding:20px}
+.card .title{font-size:30px}
+.card p{margin:0;font-family:var(--font-r);font-size:17px;color:var(--muted)}
+.card .meta{margin-top:auto}
+.tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.tags button{font:inherit;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:5px 12px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer}
+.tags button[aria-pressed="true"]{border-color:var(--gold);color:var(--gold);background:var(--gold-soft)}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:40px}
+.links{display:flex;gap:10px;flex-wrap:wrap}
+.links a{border:1px solid var(--line);padding:8px 14px;font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
+.links a:hover{border-color:var(--gold);color:var(--gold)}
+/* post */
+.post{max-width:680px;margin:0 auto}
+.post .title{font-size:clamp(40px,8vw,68px);margin:16px 0 14px}
+.post .lead{font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:600;margin:0 0 22px}
+.post .rule{height:3px;width:72px;background:var(--th);margin-bottom:26px}
+.prose{font-family:var(--font-r);font-size:20px;line-height:1.7}
+.prose p{margin:0 0 1.1em}
+.prose h3{font-family:var(--font-t);font-weight:400;font-size:28px;letter-spacing:.04em;text-transform:uppercase;margin:1.5em 0 .5em}
+.prose blockquote{margin:1.4em 0;padding:0 0 0 18px;border-left:3px solid var(--th);color:var(--muted);font-style:italic}
+.back{display:inline-block;margin-bottom:22px;color:var(--muted);font-size:13px;letter-spacing:.12em;text-transform:uppercase}
+.back:hover{color:var(--gold)}
+footer{margin:56px 0 24px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;letter-spacing:.06em}
+</style>
+
+<div class="wrap">
+  <header>
+    <a class="logo" href="#yazilar">Ulmo<span>cus</span></a>
+    <nav aria-label="Ana menü"><a href="#yazilar">Yazılar</a><a href="#hakkinda">Hakkında</a></nav>
+  </header>
+  <main id="app"></main>
+  <footer>ULMOCUS</footer>
+</div>
+
+<script>
+var C={red:'var(--th-red)',green:'var(--th-green)',blue:'var(--th-blue)'};
+var POSTS=[];
+var app=document.getElementById('app'),filter='Hepsi';
+function esc(s){return s.replace(/[&<>]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;'}[c]})}
+function md(a){return a.map(function(b){if(b.indexOf('## ')==0)return'<h3>'+esc(b.slice(3))+'</h3>';if(b.indexOf('> ')==0)return'<blockquote>'+esc(b.slice(2))+'</blockquote>';return'<p>'+esc(b)+'</p>'}).join('')}
+function ttl(p){return'<h1 class="title" style="--th:'+C[p.th]+'"><span class="l1">'+esc(p.l1)+'</span><span class="l2">'+esc(p.l2)+'</span></h1>'}
+function ttl2(p){return'<h3 class="title" style="--th:'+C[p.th]+'"><span class="l1">'+esc(p.l1)+'</span><span class="l2">'+esc(p.l2)+'</span></h3>'}
+function home(){
+  if(!POSTS.length){app.innerHTML='<div class="post" style="--th:var(--gold);text-align:center;padding:60px 0"><span class="cat">Yakında</span><h1 class="title" style="margin-top:20px"><span class="l1">İlk yazı</span><span class="l2">yolda</span></h1></div>';return}
+  var h=POSTS[0],cats=['Hepsi'].concat(POSTS.map(function(p){return p.cat}).filter(function(t,i,a){return a.indexOf(t)==i}));
+  var rest=POSTS.slice(1).filter(function(p){return filter=='Hepsi'||p.cat==filter});
+  app.innerHTML='<a class="hero" href="#'+h.id+'" style="--th:'+C[h.th]+'"><span class="cat">'+h.cat+'</span>'+ttl(h)+'<p>'+esc(h.lead)+'</p><span class="meta">'+h.sub+' · '+h.date+' · '+h.min+' dk</span>'
+   +'<svg class="spark" viewBox="0 0 600 90" preserveAspectRatio="none" aria-hidden="true"><path d="M0 10 L60 14 L120 22 L180 20 L240 36 L300 44 L360 52 L420 50 L480 70 L540 76 L600 84"/></svg></a>'
+   +'<h2 class="sec">Yazılar</h2><div class="tags" role="group" aria-label="Konu">'+cats.map(function(t){return'<button aria-pressed="'+(t==filter)+'" data-t="'+t+'">'+t+'</button>'}).join('')+'</div>'
+   +'<div class="cards" style="margin-top:16px">'+rest.map(function(p){return'<a class="card" href="#'+p.id+'" style="--th:'+C[p.th]+'"><span class="cat" style="align-self:flex-start">'+p.cat+'</span>'+ttl2(p)+'<p>'+esc(p.lead)+'</p><span class="meta">'+p.date+' · '+p.min+' dk</span></a>'}).join('')+'</div>'
+   +'<div class="bar"><span class="meta">Videolar ve canlı yayınlar için</span><div class="links"><a href="#yazilar">YouTube</a><a href="#yazilar">Kick</a></div></div>';
+  app.querySelectorAll('.tags button').forEach(function(b){b.onclick=function(){filter=b.dataset.t;home()}});
+}
+function post(p){
+  app.innerHTML='<div class="post" style="--th:'+C[p.th]+'"><a class="back" href="#yazilar">← Yazılar</a><span class="cat">'+p.cat+'</span>'+ttl(p)+'<p class="lead">'+p.sub+' · '+p.date+' · '+p.min+' dk okuma</p><div class="rule"></div><div class="prose">'+md(p.body)+'</div></div>';
+}
+function about(){
+  app.innerHTML='<div class="post" style="--th:var(--gold)"><span class="cat">Hakkında</span><h1 class="title"><span class="l1">Ben</span><span class="l2">Ulmocus</span></h1><div class="rule" style="margin-top:20px"></div><div class="prose"><p>Çok yakında.</p></div></div>';
+}
+function route(){
+  var h=location.hash.slice(1)||'yazilar';window.scrollTo(0,0);
+  if(h=='yazilar')return home();if(h=='hakkinda')return about();
+  var p=POSTS.filter(function(x){return x.id==h})[0];p?post(p):home();
+}
+window.addEventListener('hashchange',route);route();
+</script>
