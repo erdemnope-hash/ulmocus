@@ -148,7 +148,7 @@ function home(){
   app.querySelectorAll('.tags button').forEach(function(b){b.onclick=function(){filter=b.dataset.t;home()}});
 }
 function post(p){
-  app.innerHTML='<div class="pw" style="--th:'+C[p.th]+'"><nav class="toc" id="toc" aria-label="İçindekiler"></nav><div class="post"><a class="back" href="#yazilar">← Yazılar</a><span class="cat">'+p.cat+'</span>'+ttl(p)+'<p class="lead">'+p.sub+' · '+p.date+' · '+p.min+' dk okuma</p><div class="rule"></div><div class="prose" id="prose">'+(p.html||md(p.body))+'</div></div></div>';
+  app.innerHTML='<div class="pw" style="--th:'+C[p.th]+'"><div class="toc" id="toc" role="navigation" aria-label="İçindekiler"></div><div class="post"><a class="back" href="#yazilar">← Yazılar</a><span class="cat">'+p.cat+'</span>'+ttl(p)+'<p class="lead">'+p.sub+' · '+p.date+' · '+p.min+' dk okuma</p><div class="rule"></div><div class="prose" id="prose">'+(p.html||md(p.body))+'</div></div></div>';
   buildToc();
 }
 
