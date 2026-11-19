@@ -83,7 +83,40 @@ footer{margin:56px 0 24px;padding-top:16px;border-top:1px solid var(--line);colo
 
 <script>
 var C={red:'var(--th-red)',green:'var(--th-green)',blue:'var(--th-blue)'};
-var POSTS=[];
+var POSTS=[
+ {id:"sendika-sistemi",cat:"Ekonomi politikası",th:"blue",l1:"Yeni sendika",l2:"sistemi",sub:"Türkiye için bir tasarım",lead:"Herkese sendika hakkı tanıyan, parayı kazanımdan sonra alan ve işçiyi güçlü kurallarla koruyan bir model.",date:"19 Kasım 2026",min:9,
+  body:[
+  "Yeri zor doldurulan bir işçinin tek başına pazarlık gücü vardır: o ayrılırsa işveren zor durumda kalır. Yeri kolay doldurulan işçinin bu gücü yoktur. Onu ancak birlikte hareket etmek korur. Bu yazıda anlattığım sistem tam bu fikirden çıkıyor: sendika, pazarlık gücü olmayana güç vermek için vardır.",
+  "## Kimler sendika kurabilir?",
+  "Her meslekte ve her sektörde sendika kurulabilir. Memurlar dahil bütün çalışanlar üye olabilir. Sendikalaşmanın birimi tek tek meslekler değil, sektörlerdir. Bir sektörde usta da çırak da aynı sendikaya üye olur.",
+  "Her sektörün tek bir sendikası vardır, ama bu sadece addır. Sendika kendi içinde marka ve şubelere bölünür. Her şube kendi zam kurulunu ve yönetimini seçer, kendi sözleşmesini yapabilir, kendi başına greve gidebilir. Karar gücü tek merkezde toplanmaz, işyerlerine dağılır.",
+  "Sistemin ilk halinde sendika hakkı yalnızca yeri kolay doldurulan işçilerin yoğun olduğu sektörlere tanınıyordu. Bu kuralı kaldırdım. Eşiği geçemeyen sektörlerdeki herkesi, yeri kolay doldurulan işçiler dahil, sendikasız bırakıyordu.",
+  "## Sendika parayı nereden bulur?",
+  "Finansman üç kaynağa dayanır. Birincisi, sendikanın sabit giderlerini karşılayan küçük bir aidattır: personel, ofis, avukat, toplantı. Aidatı işçi her ay kendisi öder, işveren araya girmez.",
+  "İkincisi kazanım payıdır. Üye, sendikanın ona kazandırdığı gerçek artışın yüzde 20'sini öder. Gerçek artış, zammın enflasyonun üstünde kalan kısmıdır. Zam enflasyonun altında kalırsa üye hiçbir şey ödemez. Yani asıl ödemeyi sendika ona gerçekten kazandırdıktan sonra yapar.",
+  "Bir örnek: net ücreti 30.000 TL olan Ayşe yüzde 35 zam alıyor, enflasyon yüzde 30. Gerçek kazancı ayda yaklaşık 1.154 TL. Bunun yüzde 20'si, yani 231 TL kazanım payı olarak gidiyor. Kalan yaklaşık 923 TL her ay Ayşe'de kalıyor.",
+  "Üçüncüsü giriş katkısıdır: yeni üye, net asgari ücretin yüzde 10'unu üç aya bölerek öder. Kazanım payı ve giriş katkısı sendikanın harcama bütçesine değil, doğrudan grev fonuna gider.",
+  "Aidatı ödemeyenin hakları kademeli olarak kısıtlanır. Üç ay ödemeyenin oy hakkı askıya alınır, altı ay ödemeyen grev yardımı alamaz, on iki ay ödemeyenin üyeliği düşer.",
+  "## Grevde işçiye ne olur?",
+  "Grevde ücret ödenmez. Bu yüzden grev fonu var: grevdeki her üyeye her gün net asgari ücretin yarısı kadar yardım verilir. Fon, bütün üyelere otuz gün yardım verebilecek büyüklükte olmalıdır. Fon hedefe ulaşınca kazanım payı alınmaz, hedefin altına düşünce yeniden alınmaya başlar.",
+  "Yardımı yalnızca aidat borcu olmayan üyeler alır. Grev kararından sonra üye olanlar o grevde yardım alamaz. Böylece kimse sadece yardım için son anda üye olamaz.",
+  "## Kararlar nasıl alınır?",
+  "Grev, toplu sözleşme ve zam talebi aynı kurallarla, üç seviyede alınır. Şubede oy kullananların çoğunluğu evet demeli ve evet oyları, oy hakkı olan tüm üyelerin en az yüzde 40'ı olmalı. Bu ikinci şart sayesinde oy kullanmamak grevi engellemeye yardım etmez. Grevi istemeyen kişi gidip hayır oyu vermelidir.",
+  "Marka düzeyinde çifte çoğunluk aranır: şubelerin çoğunluğu ve markanın toplamı şartı sağlamalı. Sektör düzeyinde ise her markanın ağırlığı üye sayısının kareköküdür. Büyük marka daha fazla söz sahibi olur, ama üye sayısıyla orantılı olarak değil. Evet diyen markaların ağırlıklı oranı yüzde 40'a ulaşırsa sektör grevi başlar. Greve yalnızca evet diyen markalar gider.",
+  "> Riski göze alanlar kazanımı alır. Başkaları greve gider, biz de kazanırız diye düşünmenin yolu kapanır.",
+  "Sözleşmeler katmanlıdır. Sektör sözleşmesi bir taban oluşturur, marka ve şube sözleşmeleri bu tabanın altına inemez, sadece üstüne ekleme yapar. Oylama gizlidir. Cumhurbaşkanının grevi erteleme yetkisi kaldırılır. Hastane, su, elektrik gibi hayati hizmetlerde grev yapılabilir, ama asgari hizmeti sürdürecek kadar işçi çalışır.",
+  "Sendikanın yönetimi de aynı şekilde yukarıdan değil üyelerden gelir. Her seviyede yönetimi üyeler doğrudan seçer, her yıl yönetimin yarısı yenilenir. Hesapları bağımsız denetçiler inceler, rapor iş mahkemesine sunulur ve üyelere açıktır.",
+  "## İşçi nasıl korunur?",
+  "Böyle bir sistemde en büyük tehlike, işverenin sendikalı işçileri kovup yerine başkasını almasıdır. Bunu engellemek için işyerinde ilk sendika üyeliği kaydedildiği andan itibaren üye bir işçiyi çıkarmak, Sendikal Koruma Kurulu'nun onayına bağlıdır. Kurul on beş günde karar verir ve karar verilene kadar işçi işinde kalır.",
+  "Sendikal nedenle çıkarıldığı tespit edilen işçi işe geri alınır. İşveren tazminat ödeyerek bundan kurtulamaz. Çıkarmanın sendikal olmadığını da işveren kanıtlamak zorundadır.",
+  "Grevdeki işçinin yerine işçi alan, işi başka yere kaydıran ya da başka şubelerden personel getiren işverene, bu şekilde yeri doldurulan her işçi için o işçinin bir yıllık ücreti kadar ceza kesilir. Bu yüzden işveren grevi göze almak yerine anlaşmayı tercih eder ve grevler kısa sürer.",
+  "## Kayıt dışılık ve kurullar",
+  "Kayıt dışı çalışan işçi istatistiklerde görünmez ve hiçbir korumadan yararlanamaz. Bu yüzden bir şirket hesabından aynı kişiye her ay birbirine yakın tutarlarda para gidiyorsa sistem bunu fark eder ve kişinin SGK kaydını kontrol eder. Kayıtsızsa durum Kayıt Dışılık Kurulu'na bildirilir. Karar otomatik verilmez, kurul inceler. Banka verisine yalnızca bu kurul erişir ve verilerin başka amaçla kullanılmadığını bağımsız bir veri denetçisi izler.",
+  "Bütün bu kurulların kendisi de tarafsız olmak zorunda. Başkanlar ve uzman üyeler karşılıklı eleme yöntemiyle seçilir: sendikalar ve işveren örgütleri eşit sayıda aday önerir, her taraf karşı tarafın bazı adaylarını eler, kalanlar arasından kura çekilir. Görev süresi dört yıldır ve yenilenemez. Kurulların parası ortak bir fondan gelir, verdikleri cezalar kendilerine değil İşsizlik Sigortası Fonu'na gider.",
+  "## Açık kalan sorular",
+  "Sabit aidat oranının formülü hazır, ama kesin oran gerçek bir sendikanın giderleri ve üye sayısı belli olunca hesaplanabilir. Geri çağırma eşiği, görev süresi sınırı ve yönetim koltuklarının dağıtım yöntemi de henüz belirlenmedi. Sistemin uygulanması için Anayasa'nın 53, 54, 90, 139, 140 ve 159. maddeleri ile 6356, 4688, 657, 4857, 5510, 5549 ve 6698 sayılı kanunlarda değişiklik gerekiyor."
+  ]}
+];
 var app=document.getElementById('app'),filter='Hepsi';
 function esc(s){return s.replace(/[&<>]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;'}[c]})}
 function md(a){return a.map(function(b){if(b.indexOf('## ')==0)return'<h3>'+esc(b.slice(3))+'</h3>';if(b.indexOf('> ')==0)return'<blockquote>'+esc(b.slice(2))+'</blockquote>';return'<p>'+esc(b)+'</p>'}).join('')}
